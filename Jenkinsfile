@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -10,10 +11,22 @@ pipeline {
 
         stage('Maven Compile') {
             steps {
-                echo 'Starting Maven compilation...'
-                sh 'mvn clean compile'
+                dir('backend') {
+                    echo 'Starting Maven compilation...'
+                    sh 'mvn clean compile'
+                }
             }
         }
 
+    }
+
+    post {
+        success {
+            echo 'Maven compilation completed successfully!'
+        }
+
+        failure {
+            echo 'Maven compilation failed!'
+        }
     }
 }
